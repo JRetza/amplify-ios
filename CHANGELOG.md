@@ -1,10 +1,14 @@
 # Changelog
 ## Unreleased
-## 1.4.1 (2020-11-05)
+## 1.4.2 (2020-11-11)
 
 ### Bug Fixes
-
 - **amplify**: change reset method (#866)
+- **datastore**: Fix regression caused by changing the public enum value (#883)
+
+## 1.4.1 (2020-11-05)
+
+This version has been deprecated. Please use the latest release.
 
 ## 1.4.0 (2020-10-23)
 

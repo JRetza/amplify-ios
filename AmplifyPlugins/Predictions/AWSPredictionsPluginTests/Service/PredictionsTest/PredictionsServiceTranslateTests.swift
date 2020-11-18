@@ -88,12 +88,12 @@ class PredictionsServiceTranslateTests: XCTestCase {
         predictionsService.translateText(text: "",
                                          language: .english,
                                          targetLanguage: .italian) { event in
-            switch event {
-            case .completed(let result):
-                XCTFail("Should not produce result: \(result)")
-            case .failed(let error):
-                XCTAssertNotNil(error, "Should produce an error")
-            }
+                                            switch event {
+                                            case .completed(let result):
+                                                XCTFail("Should not produce result: \(result)")
+                                            case .failed(let error):
+                                                XCTAssertNotNil(error, "Should produce an error")
+                                            }
         }
     }
 

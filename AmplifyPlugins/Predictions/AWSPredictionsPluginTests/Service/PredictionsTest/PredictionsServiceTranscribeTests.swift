@@ -74,7 +74,7 @@ class PredictionsServiceTranscribeTests: XCTestCase {
     ///    - I should get back a result
     ///
     func testTranscribeService() {
-         let transcription = "This is a test"
+        let transcription = "This is a test"
         predictionsService.transcribe(speechToText: audioFile, language: .usEnglish) { event in
             switch event {
             case .completed(let result):
@@ -100,6 +100,31 @@ class PredictionsServiceTranscribeTests: XCTestCase {
                                 code: AWSTranscribeStreamingErrorType.badRequest.rawValue,
                                 userInfo: [:])
         mockTranscribe.setError(error: mockError)
+
+        predictionsService.transcribe(speechToText: audioFile, language: .usEnglish) { event in
+            switch event {
+            case .completed(let result):
+                XCTFail("Should not produce result: \(result)")
+            case .failed(let error):
+                XCTAssertNotNil(error, "Should produce an error")
+            }
+
+        }
+    }
+
+    /// Test whether error is correctly propogated
+    ///
+    /// - Given: Predictions service with transcribe behavior
+    /// - When:
+    ///    - I invoke an invalid request wich Unreachable host
+    /// - Then:
+    ///    - I should get back a connection error
+    ///
+    func testTranscribeServiceWithConnectionError() {
+        let mockError = NSError(domain: NSURLErrorDomain,
+                                code: URLError.cannotFindHost.rawValue,
+                                userInfo: [:])
+        mockTranscribe.setConnectionError(error: mockError)
 
         predictionsService.transcribe(speechToText: audioFile, language: .usEnglish) { event in
             switch event {
@@ -179,10 +204,10 @@ class PredictionsServiceTranscribeTests: XCTestCase {
         predictionsService.transcribe(speechToText: audioFile, language: nil) {event in
             switch event {
             case .completed(let result):
-                 XCTFail("Should not produce result: \(result)")
+                XCTFail("Should not produce result: \(result)")
             case .failed(let error):
-                 XCTAssertNotNil(error, "Should produce an error")
-             }
+                XCTAssertNotNil(error, "Should produce an error")
+            }
         }
     }
 }

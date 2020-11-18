@@ -13,10 +13,20 @@ import AWSTranscribeStreaming
 class MockTranscribeBehavior: AWSTranscribeStreamingBehavior {
 
     var transcriptionResult: AWSTranscribeStreamingTranscriptResultStream?
+    var connectionResult: AWSTranscribeStreamingClientConnectionStatus?
     var error: Error?
-
+    
     func getTranscribeStreaming() -> AWSTranscribeStreaming {
         return AWSTranscribeStreaming()
+    }
+
+    public func setConnectionError(error: Error) {
+        connectionResult = nil
+        self.error = error
+    }
+
+    public func setConnectionResult(result: AWSTranscribeStreamingClientConnectionStatus) {
+        connectionResult = result
     }
 
     public func setError(error: Error) {

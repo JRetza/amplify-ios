@@ -33,8 +33,7 @@ extension AWSPredictionsService: AWSTranscribeStreamingServiceBehavior {
         transcribeClientDelegate.connectionStatusCallback = { status, error in
             if status == .closed && error != nil {
                 let nsError = error as NSError?
-                let urlError = nsError as? URLError
-                if nsError?.domain == NSURLErrorDomain && urlError?.code == URLError.cannotFindHost {
+                if nsError?.domain == NSURLErrorDomain {
                     let predictionsErrorString = PredictionsErrorHelper.mapPredictionsServiceError(nsError!)
                     onEvent(.failed(.network(predictionsErrorString.errorDescription,
                                              predictionsErrorString.recoverySuggestion)))
